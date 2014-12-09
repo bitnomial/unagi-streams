@@ -8,17 +8,13 @@ License:             BSD3
 License-file:        LICENSE
 author:              Luke Hoersten
 maintainer:          luke@hoersten.org
--- copyright:
-category:            System
+category:            IO-Streams, Concurrency
 build-type:          Simple
--- extra-source-files:
-cabal-version:       >=1.10
+cabal-version:       >= 1.10
 
 library
   exposed-modules:
                 System.IO.Streams.Concurrent.Unagi
-  -- other-modules:
-  -- other-extensions:
   build-depends:
                 base       >= 4.7 && < 4.8
               , unagi-chan >= 0.2 && < 0.3
