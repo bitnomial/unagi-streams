@@ -1,24 +1,30 @@
 {-# LANGUAGE BangPatterns #-}
 
-module System.IO.Streams.Concurrent.Unagi
+module System.IO.Streams.Concurrent.Unagi.Bounded
        ( -- * Channel conversions
          inputToChan
        , chanToInput
        , chanToOutput
        , makeChanPipe
+       , dupStream
+       , DupHandle
        ) where
 
 
 ------------------------------------------------------------------------------
-import           Control.Applicative           ((<$>), (<*>))
-import           Control.Concurrent.Chan.Unagi (InChan, OutChan, newChan,
-                                                readChan, writeChan)
-import           Prelude                       hiding (read)
-import           System.IO.Streams.Internal    (InputStream, OutputStream,
-                                                makeInputStream,
-                                                makeOutputStream, read)
+import           Control.Applicative                   (pure, (<$>), (<*>))
+import           Control.Concurrent.Chan.Unagi.Bounded (InChan, OutChan,
+                                                        dupChan, newChan,
+                                                        readChan, writeChan)
+import           Control.Monad                         ((>=>))
+import           Prelude                               hiding (read)
+import           System.IO.Streams.Internal            (InputStream,
+                                                        OutputStream,
+                                                        makeInputStream,
+                                                        makeOutputStream, read)
 
 
+newtype DupHandle a = DupHandle { unDupHandle :: InChan (Maybe a) }
 
 ------------------------------------------------------------------------------
 -- | Writes the contents of an input stream to a channel until the input stream
@@ -52,7 +58,15 @@ chanToOutput = makeOutputStream . writeChan
 --
 -- Since reading from the 'InputStream' and writing to the 'OutputStream' are
 -- blocking calls, be sure to do so in different threads.
-makeChanPipe :: IO (InputStream a, OutputStream a)
-makeChanPipe = do
-    (inChan, outChan) <- newChan
-    (,) <$> chanToInput outChan <*> chanToOutput inChan
+makeChanPipe :: Int -> IO (InputStream a, OutputStream a, DupHandle a)
+makeChanPipe size = do
+    (inChan, outChan) <- newChan size
+    (,,) <$> chanToInput outChan <*> chanToOutput inChan <*> pure (DupHandle inChan)
+
+
+------------------------------------------------------------------------------
+-- | Use a 'DupHandle' to replicate everything written on the
+-- associated 'OutputStream' to the 'InputStream'.
+--
+dupStream :: DupHandle a -> IO (InputStream a)
+dupStream = dupChan . unDupHandle >=> chanToInput

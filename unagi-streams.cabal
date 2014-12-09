@@ -1,5 +1,5 @@
 name:                unagi-streams
-version:             0.1.0.0
+version:             0.1.1.0
 synopsis:            Unagi Chan IO-Streams
 description:         IO-Streams implemented underneath with Unagi
                      channels. This library is a straight port of Greg Collins' IO-Streams
@@ -15,6 +15,7 @@ cabal-version:       >= 1.10
 library
   exposed-modules:
                 System.IO.Streams.Concurrent.Unagi
+              , System.IO.Streams.Concurrent.Unagi.Bounded
   build-depends:
                 base       >= 4.7 && < 4.8
               , unagi-chan >= 0.2 && < 0.3
