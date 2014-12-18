@@ -1,9 +1,9 @@
 name:                unagi-streams
 version:             0.1.1.0
 synopsis:            Unagi Chan IO-Streams
-description:         IO-Streams implemented underneath with Unagi
-                     channels. This library is a straight port of Greg Collins' IO-Streams
-                     Chan implementation.
+description:         Io-streams chans implemented underneath with
+                     unagi-chans. This library is a straight port of
+                     the default io-streams chan implementation.
 License:             BSD3
 License-file:        LICENSE
 author:              Luke Hoersten

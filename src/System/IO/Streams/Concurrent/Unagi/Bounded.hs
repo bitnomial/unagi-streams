@@ -6,14 +6,17 @@ module System.IO.Streams.Concurrent.Unagi.Bounded
        , chanToInput
        , chanToOutput
        , makeChanPipe
+       , chanToPipe
+       , dupStream
        ) where
 
 
 ------------------------------------------------------------------------------
 import           Control.Applicative                   ((<$>), (<*>))
 import           Control.Concurrent.Chan.Unagi.Bounded (InChan, OutChan,
-                                                        newChan, readChan,
-                                                        writeChan)
+                                                        dupChan, newChan,
+                                                        readChan, writeChan)
+import           Control.Monad                         ((>=>))
 import           Prelude                               hiding (read)
 import           System.IO.Streams.Internal            (InputStream,
                                                         OutputStream,
@@ -57,3 +60,20 @@ makeChanPipe :: Int -> IO (InputStream a, OutputStream a)
 makeChanPipe size = do
     (inChan, outChan) <- newChan size
     (,) <$> chanToInput outChan <*> chanToOutput inChan
+
+
+--------------------------------------------------------------------------------
+-- | Create a new pair of streams form the given 'Chan'. Everything written
+-- to the 'OutputStream' will appear as-is on the 'InputStream'.
+--
+-- Since reading from the 'InputStream' and writing to the 'OutputStream' are
+-- blocking calls, be sure to do so in different threads.
+chanToPipe :: (InChan (Maybe a), OutChan (Maybe a)) -> IO (InputStream a, OutputStream a)
+chanToPipe (inChan, outChan) = (,) <$> chanToInput outChan <*> chanToOutput inChan
+
+
+--------------------------------------------------------------------------------
+-- | Create a new input stream duplicated from the 'InChan'
+--
+dupStream :: InChan (Maybe a) -> IO (InputStream a)
+dupStream = dupChan >=> chanToInput
