@@ -8,6 +8,7 @@ module System.IO.Streams.Concurrent.Unagi
        , makeChanPipe
        , chanToPipe
        , dupStream
+       , splitStream
        ) where
 
 
