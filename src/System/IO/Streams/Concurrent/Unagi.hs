@@ -76,3 +76,14 @@ chanToPipe (inChan, outChan) = (,) <$> chanToInput outChan <*> chanToOutput inCh
 --
 dupStream :: InChan (Maybe a) -> IO (InputStream a)
 dupStream = dupChan >=> chanToInput
+
+
+--------------------------------------------------------------------------------
+-- | Write to the output stream and have it duplicated to each input stream.
+splitStream :: IO (InputStream a, InputStream a, OutputStream a)
+splitStream = do
+    (inChan, _) <- newChan
+    in1  <- dupStream inChan
+    in2  <- dupStream inChan
+    out1 <- chanToOutput inChan
+    return (in1, in2, out1)
