@@ -1,5 +1,5 @@
 name:                unagi-streams
-version:             0.2.2
+version:             0.2.3
 synopsis:            Unagi Chan IO-Streams
 description:         Io-streams chans implemented underneath with
                      unagi-chans. This library is a straight port of
@@ -7,16 +7,17 @@ description:         Io-streams chans implemented underneath with
 License:             BSD3
 License-file:        LICENSE
 author:              Luke Hoersten
-maintainer:          luke@hoersten.org
+maintainer:          luke@bitnomial.com
+copyright:           Bitnomial, Inc. (c) 2016
 category:            IO-Streams, Concurrency
 build-type:          Simple
 cabal-version:       >= 1.10
-homepage:            https://github.com/LukeHoersten/unagi-streams
-bug-reports:         https://github.com/LukeHoersten/unagi-streams/issues
+homepage:            https://github.com/bitnomial/unagi-streams
+bug-reports:         https://github.com/bitnomial/unagi-streams/issues
 
 source-repository head
   type: git
-  location: git://github.com/LukeHoersten/unagi-streams.git
+  location: git://github.com/bitnomial/unagi-streams.git
 
 library
   exposed-modules:
