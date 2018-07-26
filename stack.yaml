@@ -1,6 +1,6 @@
-resolver: lts-9.3
+resolver: lts-12.2
 flags: {}
 packages:
   - location: '.'
 extra-deps:
-  - unagi-chan-0.4.0.0
+  - unagi-chan-0.4.1.0
