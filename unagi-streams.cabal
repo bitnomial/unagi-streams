@@ -1,5 +1,5 @@
 name:                unagi-streams
-version:             0.2.5
+version:             0.2.5.1
 synopsis:            Unagi Chan IO-Streams
 description:         Io-streams chans implemented underneath with
                      unagi-chans. This library is a straight port of
@@ -23,7 +23,7 @@ library
   exposed-modules:
                 System.IO.Streams.Concurrent.Unagi
               , System.IO.Streams.Concurrent.Unagi.Bounded
-  build-depends: base       >= 4.7 && < 4.13
+  build-depends: base       >= 4.7 && < 4.14
                , io-streams >= 1.2 && < 1.6
                , unagi-chan >= 0.2 && < 0.5
 
