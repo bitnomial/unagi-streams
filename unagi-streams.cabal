@@ -23,7 +23,7 @@ library
   exposed-modules:
                 System.IO.Streams.Concurrent.Unagi
               , System.IO.Streams.Concurrent.Unagi.Bounded
-  build-depends: base       >= 4.7 && < 4.14
+  build-depends: base       >= 4.7 && < 5
                , io-streams >= 1.2 && < 1.6
                , unagi-chan >= 0.2 && < 0.5
 
